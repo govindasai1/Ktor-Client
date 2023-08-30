@@ -2,7 +2,6 @@ package com.example.routes
 
 import com.example.methods.carts
 import com.example.model.Cart
-import com.example.model.Carts
 import com.example.model.Message
 import com.example.model.cartsList
 import io.ktor.server.application.*

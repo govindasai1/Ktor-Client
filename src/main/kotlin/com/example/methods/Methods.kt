@@ -15,14 +15,12 @@ private val client = HttpClient{
     }
 }
 
-suspend fun method(): String {
+suspend fun method(): Product {
     val resp = client.get("https://dummyjson.com/Product").bodyAsText()
-    var c =Gson().fromJson(resp, Product::class.java)
-    return resp
-    }
-suspend fun carts():Carts{
+    return Gson().fromJson(resp, Product::class.java)
+}
+suspend fun carts(): Carts {
     val responce = client.get("https://dummyjson.com/carts").bodyAsText()
-    var cartVluues = Gson().fromJson(responce,Carts::class.java)
-    return cartVluues
+    return Gson().fromJson(responce, Carts::class.java)
 }
 
