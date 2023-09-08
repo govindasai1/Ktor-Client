@@ -24,7 +24,7 @@ fun Route.cartRouting(){
         }
 
 
-        get("/{id?}"){
+        get("/{id?}"){try{
             val parameter =call.parameters["id"]?:return@get call.respondText("ID CANT BE EMPTY")
             val cart = carts()
             val list: MutableList<Cart> = mutableListOf()
@@ -34,15 +34,23 @@ fun Route.cartRouting(){
                         if ((cart.carts[i].id) == (parameter.toInt())){ list.add(cart.carts[i]);break}
                     }
             call.respond(list)
+        }catch (_:NumberFormatException){
+                call.respond(Message("ENTER A NUMBER NOT WORDS"))
+        }
         }
 
 
         delete("{id?}") {
-            val parameter =call.parameters["id"]?:return@delete call.respondText("ID CANT BE EMPTY")
-            val presence = cartsList.filter { it.id==parameter.toInt() }
-            if (presence.isNotEmpty()) {cartsList.removeAll(presence)
-            call.respond(Message("CART WITH  ID DELETED"))}
-            else call.respond(Message("ID WITH CART NOT PRESENT"))
+            try {
+                val parameter = call.parameters["id"] ?: return@delete call.respondText("ID CANT BE EMPTY")
+                val presence = cartsList.filter { it.id == parameter.toInt() }
+                if (presence.isNotEmpty()) {
+                    cartsList.removeAll(presence)
+                    call.respond(Message("CART WITH  ID DELETED"))
+                } else call.respond(Message("ID WITH CART NOT PRESENT"))
+            }catch (_:NumberFormatException){
+                call.respond(Message("ENTER A NUMBER NOT WORDS"))
+            }
         }
 
 
